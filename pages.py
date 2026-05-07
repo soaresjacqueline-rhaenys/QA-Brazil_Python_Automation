@@ -9,7 +9,7 @@ class UrbanRoutesPage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
+        self.wait = WebDriverWait(driver, 5)
 
     def _find(self, locator):
         return self.wait.until(EC.visibility_of_element_located(locator))
