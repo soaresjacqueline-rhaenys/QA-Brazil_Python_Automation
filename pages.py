@@ -1,11 +1,17 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+import time
 
 class UrbanRoutesPage:
     # Seção De e Para
     from_field = (By.ID, 'from')
     to_field = (By.ID, 'to')
+
+    #Fluxo de chamada de taxi
+    taxi_option = (By.XPATH, '//button[contains(text(),"Chamar")]')
+    comfort_icon= (By.XPATH, '//img[contains(@src,"kids")]')
+    comfort_active = (By.XPATH, '//div[contains(@class,"tcard") and contains(@class,"active") and .//img[contains(@src,"kids")]]')
 
     def __init__(self, driver):
         self.driver = driver
@@ -37,3 +43,20 @@ class UrbanRoutesPage:
 
     def get_to_locations(self):
         return self._get_value(self.to_field)
+
+#Chamar táxi
+
+    def click_taxi_option(self):
+        self.driver.find_element(*self.taxi_option).click()
+
+    def click_icon_comfort_selected(self):
+        self.driver.find_element(*self.comfort_icon).click()
+
+    def click_comfort_button(self):
+        try:
+            active_button = WebDriverWait(self.driver, 5).until(
+                EC.visibility_of_element_located(self.comfort_active)
+            )
+            return "active" in active_button.get_attribute("class")
+        except Exception:
+            return False

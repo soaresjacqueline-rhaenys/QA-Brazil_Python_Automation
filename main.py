@@ -25,17 +25,16 @@ class TestUrbanRoutes:
     def setup_method(self):
         self.driver.get(data.URBAN_ROUTES_URL)
         self.page = UrbanRoutesPage(self.driver)
+        self.page.enter_locations(data.ADDRESS_FROM, data.ADDRESS_TO)
 
     def test_urban_routes(self):
-      self.page.enter_locations(data.ADDRESS_FROM, data.ADDRESS_TO)
       assert self.page.get_from_locations() == data.ADDRESS_FROM
       assert self.page.get_to_locations() == data.ADDRESS_TO
-      time.sleep(10)
 
     def test_select_plan(self):
-        # Adicionar em S8
-        print("função criada para definir o modo de corrida")
-        pass
+        self.page.click_taxi_option()
+        self.page.click_icon_comfort_selected()
+        assert self.page.click_comfort_button()
 
     def test_fill_phone_number(self):
         # Adicionar em S8
